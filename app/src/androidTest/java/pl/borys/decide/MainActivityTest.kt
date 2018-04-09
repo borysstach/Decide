@@ -7,10 +7,11 @@ import org.junit.runner.RunWith
 import android.support.test.rule.ActivityTestRule
 import org.junit.Rule
 import org.junit.Test
-import pl.borys.decide.helper.assertTextIsDisplayed
-import pl.borys.decide.helper.assertTextIsSelected
+import pl.borys.decide.helper.NavigationHelper
 import pl.borys.decide.helper.click
 import pl.borys.decide.helper.hasText
+import pl.borys.decide.usecase.main.BottomBarTabsEnum
+import pl.borys.decide.usecase.main.MainActivity
 
 
 @RunWith(AndroidJUnit4::class)
@@ -21,18 +22,18 @@ class MainActivityTest {
 
     @Test
     fun message_changeTo_Decide() {
-        R.id.navigation_decide.click()
+       NavigationHelper.clickBottomBarTab(BottomBarTabsEnum.DECIDE)
         R.id.message hasText R.string.tab_decide
     }
     @Test
     fun message_changeTo_Ask() {
-        R.id.navigation_ask.click()
+        NavigationHelper.clickBottomBarTab(BottomBarTabsEnum.ASK)
         R.id.message hasText R.string.tab_ask
     }
 
     @Test
     fun message_changeTo_Friends() {
-        R.id.navigation_friends.click()
+        NavigationHelper.clickBottomBarTab(BottomBarTabsEnum.FRIENDS)
         R.id.message hasText R.string.tab_friends
     }
 }

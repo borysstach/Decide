@@ -35,16 +35,16 @@ class MainActivity : AppCompatActivity() {
 
     private val onNavigationItemSelectedListener = AHBottomNavigation.OnTabSelectedListener { position, wasSelected ->
         when (position) {
-            BottomBarTabsEnum.DECIDE.ordinal -> {
-                message.setText(BottomBarTabsEnum.DECIDE.title) //TODO: change to decide fragment
+            BottomBarTabsEnum.VOTE.ordinal -> {
+                message.setText(BottomBarTabsEnum.VOTE.title) //TODO: change to decide fragment
                 return@OnTabSelectedListener true
             }
             BottomBarTabsEnum.ASK.ordinal -> {
                 message.setText(BottomBarTabsEnum.ASK.title) //TODO: change to ask fragment
                 return@OnTabSelectedListener true
             }
-            BottomBarTabsEnum.FRIENDS.ordinal -> {
-                message.setText(BottomBarTabsEnum.FRIENDS.title) //TODO: change to friends fragment
+            BottomBarTabsEnum.SOCIAL.ordinal -> {
+                message.setText(BottomBarTabsEnum.SOCIAL.title) //TODO: change to friends fragment
                 return@OnTabSelectedListener true
             }
         }

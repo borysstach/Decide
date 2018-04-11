@@ -8,16 +8,16 @@ enum class BottomBarTabsEnum(
         @StringRes val title: Int,
         @DrawableRes val icon: Int
 ){
-    DECIDE(
-            R.string.tab_decide,
+    VOTE(
+            R.string.tab_vote,
             R.drawable.ic_exclamation_mark
     ),
     ASK(
             R.string.tab_ask,
             R.drawable.ic_question_mark
     ),
-    FRIENDS(
-            R.string.tab_friends,
+    SOCIAL(
+            R.string.tab_social,
             R.drawable.ic_people
     )
 }

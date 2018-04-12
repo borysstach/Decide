@@ -1,12 +1,10 @@
-package pl.borys.decide.helper
+package pl.borys.decide.helper.espresso
 
 import android.support.annotation.StringRes
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.ViewAction
 import android.support.test.espresso.ViewAssertion
-import android.support.test.espresso.assertion.ViewAssertions
 import android.support.test.espresso.assertion.ViewAssertions.matches
-import android.support.test.espresso.matcher.ViewMatchers
 import android.support.test.espresso.matcher.ViewMatchers.*
 
 fun Int.perform(viewAction: ViewAction){
@@ -30,6 +28,10 @@ fun Int.assertIsChecked(){
 
 fun Int.assertIsSelected(){
     this.check(matches(isSelected()))
+}
+
+fun Int.assertIsDisplayed(){
+    this.check(matches(isCompletelyDisplayed()))
 }
 
 fun Int.assertTextIsDisplayed(){

@@ -1,4 +1,4 @@
-package pl.borys.decide.helper
+package pl.borys.decide.helper.espresso
 
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.matcher.ViewMatchers.withId

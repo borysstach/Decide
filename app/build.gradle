@@ -31,6 +31,10 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     // Kotlin extensions
     implementation 'androidx.core:core-ktx:0.3'
+    // Bottom Bar
+    implementation 'com.aurelhubert:ahbottomnavigation:2.1.0'
+    // FragmentNavigation
+    implementation 'com.ncapdevi:frag-nav:2.4.0'
     // Tests
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'

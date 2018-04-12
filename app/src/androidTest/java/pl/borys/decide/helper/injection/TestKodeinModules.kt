@@ -5,9 +5,9 @@ import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.singleton
 import pl.borys.decide.common.doNothing
-import pl.borys.decide.usecase.vote.api.FakeVoteSheetFactory
-import pl.borys.decide.usecase.vote.api.VoteApi
 import pl.borys.decide.usecase.vote.dto.VoteSheet
+import pl.borys.decide.usecase.vote.model.FakeVoteSheetFactory
+import pl.borys.decide.usecase.vote.model.VoteApi
 
 fun getVoteModule(
         voteSheets: List<VoteSheet> = listOf(FakeVoteSheetFactory.newVoteSheet()),

@@ -1,4 +1,4 @@
-package pl.borys.decide.usecase.vote.api
+package pl.borys.decide.usecase.vote.model
 
 import pl.borys.decide.usecase.vote.dto.Answer
 import pl.borys.decide.usecase.vote.dto.VoteSheet

@@ -11,7 +11,7 @@ import org.kodein.di.generic.instance
 import pl.borys.decide.R
 import pl.borys.decide.common.KodeinProvider
 import pl.borys.decide.common.views.BaseFragment
-import pl.borys.decide.usecase.vote.api.VoteApi
+import pl.borys.decide.usecase.vote.model.VoteApi
 import pl.borys.decide.usecase.vote.dto.VoteSheet
 
 class VoteFragment : BaseFragment() {

@@ -1,4 +1,4 @@
-package pl.borys.decide.usecase.vote.api
+package pl.borys.decide.usecase.vote.model
 
 import io.reactivex.Observable
 import pl.borys.decide.usecase.vote.dto.VoteSheet

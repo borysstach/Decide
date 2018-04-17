@@ -19,6 +19,7 @@ class VoteViewModel : ViewModel() {
     private var sheetsDisposable: Disposable? = null
 
     fun getVoteSheets(): LiveData<VoteSheetsResponse> {
+        // TODO: make refresh method and getSheets only on first run
         getSheets()
         return voteSheetsLiveData
     }

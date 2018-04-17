@@ -2,6 +2,7 @@ package pl.borys.decide.common.views
 
 import android.annotation.TargetApi
 import android.content.Context
+import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
@@ -20,7 +21,7 @@ class TestableProgressBar : ProgressBar {
     override fun setIndeterminateDrawable(originalDrawable: Drawable?) {
         super.setIndeterminateDrawable(
                 if (isTesting()) {
-                    ColorDrawable(0)
+                    ColorDrawable(Color.RED)
                 } else {
                     originalDrawable
                 }

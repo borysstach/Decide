@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit
 class VoteFragmentTest {
     private val TEST_TITLE_1 = "VoteFragmentTestTitle1"
     private val TEST_TITLE_2 = "VoteFragmentTestTitle2"
-    private val DELAY = 3
+    private val DELAY = 10L
 
     private val voteModule = Kodein.Module {
         bind<VoteApi>(overrides = true) with singleton {
@@ -39,7 +39,7 @@ class VoteFragmentTest {
                                         FakeVoteSheetFactory.newVoteSheet(title = TEST_TITLE_1),
                                         FakeVoteSheetFactory.newVoteSheet(title = TEST_TITLE_2)
                                 )
-                        ).emitAfter(3, TimeUnit.SECONDS)
+                        ).emitAfter(DELAY, TimeUnit.SECONDS)
 
                 override fun vote(sheetId: String, answerId: Int): Observable<Unit> =
                         Observable.just(doNothing)

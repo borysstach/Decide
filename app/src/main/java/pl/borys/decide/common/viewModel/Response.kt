@@ -2,11 +2,17 @@ package pl.borys.decide.common.viewModel
 
 class Response<out T>(val status: Status, val data: T?, val error: Throwable?) {
 
-    fun map(onLoading: () -> Unit, onSuccess: (T?) -> Unit, onError: (Throwable?) -> Unit) {
+    fun map(onLoading: () -> Unit, onSuccess: (T?) -> Unit, onError: (Throwable?) -> Unit, onFinish: ()-> Unit) {
         when (status) {
             Status.LOADING -> onLoading()
-            Status.SUCCESS -> onSuccess(data)
-            Status.ERROR -> onError(error)
+            Status.SUCCESS -> {
+                onSuccess(data)
+                onFinish()
+            }
+            Status.ERROR -> {
+                onError(error)
+                onFinish()
+            }
         }
     }
 

@@ -5,6 +5,8 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.View
+import androidx.core.view.isGone
+import kotlinx.android.synthetic.main.fullscreen_loader.*
 import kotlinx.android.synthetic.main.vote_fragment.*
 import pl.borys.decide.R
 import pl.borys.decide.common.views.BaseFragment
@@ -31,12 +33,17 @@ class VoteFragment : BaseFragment() {
         response?.map(
                 onLoading = showLoader,
                 onSuccess = changeMessage,
-                onError = showError
+                onError = showError,
+                onFinish = hideLoader
         )
     }
 
     private val showLoader: () -> Unit = {
-        message.text = "Loading..." //TODO: make some cool loader
+        loader.isGone = false
+    }
+
+    private val hideLoader: () -> Unit = {
+        loader.isGone = true
     }
 
     private val changeMessage: (List<VoteSheet>?) -> Unit = {

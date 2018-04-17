@@ -6,6 +6,7 @@ import android.support.test.espresso.ViewAction
 import android.support.test.espresso.ViewAssertion
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers.*
+import org.hamcrest.CoreMatchers.not
 
 fun Int.perform(viewAction: ViewAction){
     onView(withId(this)).perform(viewAction)
@@ -32,6 +33,10 @@ fun Int.assertIsSelected(){
 
 fun Int.assertIsDisplayed(){
     this.check(matches(isCompletelyDisplayed()))
+}
+
+fun Int.assertIsNotDisplayed(){
+    this.check(matches(not(isDisplayed())))
 }
 
 fun Int.assertTextIsDisplayed(){

@@ -1,6 +1,5 @@
-package pl.borys.decide.helper
+package pl.borys.decide.helper.espresso
 
-import android.support.test.espresso.web.model.Atoms.getTitle
 import android.support.test.espresso.matcher.BoundedMatcher
 import android.support.v7.widget.Toolbar
 import android.view.View

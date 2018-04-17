@@ -1,38 +1,38 @@
 package pl.borys.decide
 
-import android.os.SystemClock
-import android.support.test.runner.AndroidJUnit4
 import android.support.test.filters.LargeTest
-import org.junit.runner.RunWith
-import android.support.test.rule.ActivityTestRule
+import android.support.test.runner.AndroidJUnit4
 import org.junit.Rule
 import org.junit.Test
-import pl.borys.decide.helper.assertTextIsDisplayed
-import pl.borys.decide.helper.assertTextIsSelected
-import pl.borys.decide.helper.click
-import pl.borys.decide.helper.hasText
+import org.junit.runner.RunWith
+import pl.borys.decide.helper.espresso.NavigationHelper
+import pl.borys.decide.helper.espresso.assertIsDisplayed
+import pl.borys.decide.helper.testRules.MainActivityTestRule
+import pl.borys.decide.usecase.main.BottomBarTabsEnum
 
 
 @RunWith(AndroidJUnit4::class)
 @LargeTest
 class MainActivityTest {
+
     @get:Rule
-    var activityRule = ActivityTestRule(MainActivity::class.java)
+    var activityRule = MainActivityTestRule()
 
     @Test
     fun message_changeTo_Decide() {
-        R.id.navigation_decide.click()
-        R.id.message hasText R.string.tab_decide
+        NavigationHelper.clickBottomBarTab(BottomBarTabsEnum.VOTE)
+        R.id.vote_container.assertIsDisplayed()
     }
+
     @Test
     fun message_changeTo_Ask() {
-        R.id.navigation_ask.click()
-        R.id.message hasText R.string.tab_ask
+        NavigationHelper.clickBottomBarTab(BottomBarTabsEnum.ASK)
+        R.id.ask_container.assertIsDisplayed()
     }
 
     @Test
     fun message_changeTo_Friends() {
-        R.id.navigation_friends.click()
-        R.id.message hasText R.string.tab_friends
+        NavigationHelper.clickBottomBarTab(BottomBarTabsEnum.SOCIAL)
+        R.id.social_container.assertIsDisplayed()
     }
 }

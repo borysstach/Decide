@@ -4,6 +4,7 @@ import io.reactivex.Observable
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.singleton
+import pl.borys.decide.common.KodeinProvider
 import pl.borys.decide.common.doNothing
 import pl.borys.decide.usecase.vote.dto.VoteSheet
 import pl.borys.decide.usecase.vote.model.FakeVoteSheetFactory
@@ -26,6 +27,7 @@ fun getVoteModule(
 }
 
 fun getTestKodein() = Kodein {
+    bind<Boolean>(tag = KodeinProvider.TEST_TAG) with singleton { true }
     import(getVoteModule(overrides = false), allowOverride = true)
 }
 

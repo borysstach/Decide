@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit
 class VoteFragmentTest {
     private val TEST_TITLE_1 = "VoteFragmentTestTitle1"
     private val TEST_TITLE_2 = "VoteFragmentTestTitle2"
-    private val DELAY = 10L
+    private val DELAY = 3L
 
     private val voteModule = Kodein.Module {
         bind<VoteApi>(overrides = true) with singleton {
@@ -49,9 +49,9 @@ class VoteFragmentTest {
     }
 
     @get:Rule
-    var activityRule = VoteFragmentTestRule(getTestKodeinWith(
-            voteModule
-    ))
+    var activityRule = VoteFragmentTestRule(
+            getTestKodeinWith(voteModule)
+    )
 
     @Test
     fun should_ShowLoader_OnStart() {

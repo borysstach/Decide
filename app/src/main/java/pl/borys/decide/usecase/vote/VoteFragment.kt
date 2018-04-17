@@ -1,54 +1,50 @@
 package pl.borys.decide.usecase.vote
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.View
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.vote_fragment.*
-import org.kodein.di.generic.instance
 import pl.borys.decide.R
-import pl.borys.decide.common.KodeinProvider
 import pl.borys.decide.common.views.BaseFragment
-import pl.borys.decide.usecase.vote.model.VoteApi
 import pl.borys.decide.usecase.vote.dto.VoteSheet
+import pl.borys.decide.usecase.vote.viewModel.VoteSheetsResponse
+import pl.borys.decide.usecase.vote.viewModel.VoteViewModel
 
 class VoteFragment : BaseFragment() {
 
     override val layout = R.layout.vote_fragment
-
-    private var sheetsDisposable: Disposable? = null
-    private val sheetsRepository: VoteApi by KodeinProvider.kodeinInstance.instance()
-
+    private var voteModel: VoteViewModel? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getSheets()
     }
 
-    //TODO: move it to LiveData
     private fun getSheets() {
-        sheetsDisposable = sheetsRepository.getSheets()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        changeMessage,
-                        showError
-                )
+        voteModel = ViewModelProviders.of(this).get(VoteViewModel::class.java)
+        voteModel?.getVoteSheets()?.observe(this, processResponse)
     }
 
-    private val changeMessage: (List<VoteSheet>) -> Unit = {
-        message.text = it.map { it.title }.toString()
+    private val processResponse = Observer<VoteSheetsResponse> { response ->
+        response?.map(
+                onLoading = showLoader,
+                onSuccess = changeMessage,
+                onError = showError
+        )
     }
 
-    private val showError: (Throwable) -> Unit = {
-        message.text = it.message
+    private val showLoader: () -> Unit = {
+        message.text = "Loading..." //TODO: make some cool loader
     }
 
-    override fun onStop() {
-        super.onStop()
-        sheetsDisposable?.dispose()
+    private val changeMessage: (List<VoteSheet>?) -> Unit = {
+        message.text = it?.map { it.title }.toString()
+    }
+
+    private val showError: (Throwable?) -> Unit = {
+        message.text = it?.message ?: "Error with no message" //TODO: get this from resources
     }
 
     companion object {

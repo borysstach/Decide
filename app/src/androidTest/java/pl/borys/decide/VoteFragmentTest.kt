@@ -1,72 +1,61 @@
 package pl.borys.decide
 
-import android.os.SystemClock
+import android.arch.lifecycle.MutableLiveData
 import android.support.test.filters.LargeTest
-import android.support.test.runner.AndroidJUnit4
-import io.reactivex.Observable
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.kodein.di.Kodein
-import org.kodein.di.generic.bind
-import org.kodein.di.generic.singleton
-import pl.borys.decide.common.doNothing
-import pl.borys.decide.common.model.emitAfter
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.mock
+import pl.borys.decide.common.viewModel.Response
 import pl.borys.decide.helper.espresso.assertIsDisplayed
 import pl.borys.decide.helper.espresso.assertIsNotDisplayed
 import pl.borys.decide.helper.espresso.hasText
 import pl.borys.decide.helper.factory.FakeVoteSheetFactory
-import pl.borys.decide.helper.injection.getTestKodeinWith
+import pl.borys.decide.helper.injection.TestKodein
+import pl.borys.decide.helper.injection.getVoteViewModelModule
 import pl.borys.decide.helper.testRules.VoteFragmentTestRule
-import pl.borys.decide.usecase.vote.dto.VoteSheet
-import pl.borys.decide.usecase.vote.model.VoteApi
-import java.util.concurrent.TimeUnit
+import pl.borys.decide.usecase.vote.viewModel.VoteSheetsResponse
+import pl.borys.decide.usecase.vote.viewModel.VoteViewModel
 
-
-@RunWith(AndroidJUnit4::class)
 @LargeTest
 class VoteFragmentTest {
     private val TEST_TITLE_1 = "VoteFragmentTestTitle1"
     private val TEST_TITLE_2 = "VoteFragmentTestTitle2"
-    private val DELAY = 10L
+    private val mockViewModel = mock(VoteViewModel::class.java)
+    private val voteSheetsLiveData: MutableLiveData<VoteSheetsResponse> = MutableLiveData()
 
-    private val voteModule = Kodein.Module {
-        bind<VoteApi>(overrides = true) with singleton {
-            object : VoteApi {
-                override fun getSheets(): Observable<List<VoteSheet>> =
-                        Observable.just(
-                                listOf(
-                                        FakeVoteSheetFactory.newVoteSheet(title = TEST_TITLE_1),
-                                        FakeVoteSheetFactory.newVoteSheet(title = TEST_TITLE_2)
-                                )
-                        ).emitAfter(DELAY, TimeUnit.SECONDS)
-
-                override fun vote(sheetId: String, answerId: Int): Observable<Unit> =
-                        Observable.just(doNothing)
-
-            }
+    private val voteViewModule: Kodein.Module
+        get() {
+            `when`(mockViewModel.getVoteSheets()).thenReturn(voteSheetsLiveData)
+            return getVoteViewModelModule(mockViewModel, overrides = true)
         }
-    }
 
     @get:Rule
-    var activityRule = VoteFragmentTestRule(getTestKodeinWith(
-            voteModule
-    ))
+    var activityRule = VoteFragmentTestRule(TestKodein.getWith(voteViewModule))
 
     @Test
     fun should_ShowLoader_OnStart() {
+        voteSheetsLiveData.postValue(Response.loading())
         R.id.loader.assertIsDisplayed()
     }
 
     @Test
     fun should_HideLoader_AfterFetchDataDelay() {
-        SystemClock.sleep((DELAY + 1) * 1000L)
+        voteSheetsLiveData.postValue(Response.success(listOf(FakeVoteSheetFactory.newVoteSheet())))
         R.id.loader.assertIsNotDisplayed()
     }
 
     @Test
     fun should_ShowTitle_AfterFetchDataDelay() {
-        SystemClock.sleep((DELAY + 1) * 1000L)
+        voteSheetsLiveData.postValue(
+                Response.success(
+                        listOf(
+                                FakeVoteSheetFactory.newVoteSheet(title = TEST_TITLE_1),
+                                FakeVoteSheetFactory.newVoteSheet(title = TEST_TITLE_2)
+                        )
+                )
+        )
         R.id.message hasText listOf(TEST_TITLE_1, TEST_TITLE_2).toString()
     }
 

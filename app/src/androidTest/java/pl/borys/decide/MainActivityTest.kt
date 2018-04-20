@@ -19,19 +19,19 @@ class MainActivityTest {
     var activityRule = MainActivityTestRule()
 
     @Test
-    fun message_changeTo_Decide() {
+    fun should_changeTabTo_Decide() {
         NavigationHelper.clickBottomBarTab(BottomBarTabsEnum.VOTE)
         R.id.vote_container.assertIsDisplayed()
     }
 
     @Test
-    fun message_changeTo_Ask() {
+    fun should_changeTabTo_Ask() {
         NavigationHelper.clickBottomBarTab(BottomBarTabsEnum.ASK)
         R.id.ask_container.assertIsDisplayed()
     }
 
     @Test
-    fun message_changeTo_Friends() {
+    fun should_changeTabTo_Friends() {
         NavigationHelper.clickBottomBarTab(BottomBarTabsEnum.SOCIAL)
         R.id.social_container.assertIsDisplayed()
     }

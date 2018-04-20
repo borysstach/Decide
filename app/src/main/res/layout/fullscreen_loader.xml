@@ -6,7 +6,7 @@
     android:id="@+id/loader"
     >
 
-    <ProgressBar
+    <pl.borys.decide.common.views.TestableProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

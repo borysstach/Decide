@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.util.AttributeSet
+import android.view.animation.Animation
 import android.widget.ProgressBar
 import pl.borys.decide.common.isTesting
 
@@ -26,5 +27,11 @@ class TestableProgressBar : ProgressBar {
                     originalDrawable
                 }
         )
+    }
+
+    override fun startAnimation(animation: Animation?) {
+        if (isTesting()) {
+            super.startAnimation(animation)
+        }
     }
 }

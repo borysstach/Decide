@@ -30,7 +30,7 @@ class TestableProgressBar : ProgressBar {
     }
 
     override fun startAnimation(animation: Animation?) {
-        if (isTesting()) {
+        if (!isTesting()) {
             super.startAnimation(animation)
         }
     }

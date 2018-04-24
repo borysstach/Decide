@@ -54,7 +54,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     testImplementation "org.mockito:mockito-core:$mockito_version"
     androidTestImplementation "org.mockito:mockito-android:$mockito_version"
-    androidTestImplementation  'com.github.tmurakami:dexopener:0.12.1' //allow mock final classes in Android tests
+    androidTestImplementation 'com.github.tmurakami:dexopener:0.12.1' //allow mock final classes in Android tests
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation ('com.android.support.test.espresso:espresso-core:3.0.1') {
         exclude group: 'com.android.support', module: 'support-annotations'

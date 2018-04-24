@@ -2,8 +2,10 @@ package pl.borys.decide
 
 import android.arch.lifecycle.MutableLiveData
 import android.support.test.filters.LargeTest
+import android.support.test.runner.AndroidJUnit4
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
 import org.kodein.di.Kodein
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
@@ -18,12 +20,16 @@ import pl.borys.decide.helper.testRules.VoteFragmentTestRule
 import pl.borys.decide.usecase.vote.viewModel.VoteSheetsResponse
 import pl.borys.decide.usecase.vote.viewModel.VoteViewModel
 
+@RunWith(AndroidJUnit4::class)
 @LargeTest
 class VoteFragmentTest {
     private val TEST_TITLE_1 = "VoteFragmentTestTitle1"
     private val TEST_TITLE_2 = "VoteFragmentTestTitle2"
     private val mockViewModel = mock(VoteViewModel::class.java)
-    private val voteSheetsLiveData: MutableLiveData<VoteSheetsResponse> = MutableLiveData()
+    private val voteSheetsLiveData: MutableLiveData<VoteSheetsResponse> = MutableLiveData<VoteSheetsResponse>()
+            .apply {
+                postValue(Response.loading())
+            }
 
     private val voteViewModule: Kodein.Module
         get() {

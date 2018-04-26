@@ -31,9 +31,6 @@ import java.util.concurrent.TimeUnit
 @RunWith(JUnit4::class)
 class VoteViewModelTest {
 
-    private val voteVM by lazy { VoteViewModel() }
-    private val observer = mock<Observer<VoteSheetsResponse>>()
-
     @Rule
     @JvmField
     val rule = InstantTaskExecutorRule()
@@ -43,10 +40,14 @@ class VoteViewModelTest {
         RxAndroidPlugins.setInitMainThreadSchedulerHandler { scheduler -> Schedulers.trampoline() }
     }
 
+    private val voteVM by lazy { VoteViewModel() }
+    private val observer = mock<Observer<VoteSheetsResponse>>()
+
     @Test
     fun getVoteSheets_ReturnLoadResponse_WhileDataIsFetched() {
         initWithVoteSheets()
         voteVM.getVoteSheets().observeForever(observer)
+
         verify(observer).onChanged(Response.loading())
     }
 
@@ -54,18 +55,22 @@ class VoteViewModelTest {
     fun getVoteSheets_ReturnData_AfterFetchedDelay() {
         val delay = 3L
         val data = listOf(FakeVoteSheetFactory.newVoteSheet())
+
         initWithVoteSheets(voteSheets = data, delay = delay)
         voteVM.getVoteSheets().observeForever(observer)
         Thread.sleep((delay + 1) * 1000)
+
         verify(observer).onChanged(Response.success(data))
     }
 
     @Test
     fun getVoteSheets_ReturnError() {
         val error = Throwable("some dangerous error")
+
         initWithVoteSheets(delay = 0, error = error)
         voteVM.getVoteSheets().observeForever(observer)
-        Thread.sleep( 1000)
+        Thread.sleep(1000)
+
         verify(observer).onChanged(Response.error(error))
     }
 
@@ -74,26 +79,27 @@ class VoteViewModelTest {
             delay: Long = 3,
             error: Throwable? = null
     ) {
-        val kodeinModule = Kodein.Module {
-            bind<VoteApi>(overrides = true) with singleton {
-                object : VoteApi {
-                    override fun getSheets(): Observable<List<VoteSheet>> {
-                        return if (error == null) {
-                            Observable.just(voteSheets)
-                                    .emitAfter(delay, TimeUnit.SECONDS)
-                        } else {
-                            Observable.error(error)
-                        }
-                    }
-
-                    override fun vote(sheetId: String, answerId: Int): Observable<Unit> =
-                            Observable.just(doNothing)
-
+        val observable =
+                if (error == null) {
+                    Observable.just(voteSheets).emitAfter(delay, TimeUnit.SECONDS)
+                } else {
+                    Observable.error(error)
                 }
-            }
-        }
         KodeinProvider.override(TestKodein.getWith(
-                kodeinModule
+                getVoteSheetsModuleWith(observable)
         ))
     }
+
+    private fun getVoteSheetsModuleWith(observable: Observable<List<VoteSheet>>): Kodein.Module =
+            Kodein.Module {
+                bind<VoteApi>(overrides = true) with singleton {
+                    object : VoteApi {
+                        override fun getSheets() =
+                                observable
+
+                        override fun vote(sheetId: String, answerId: Int) =
+                                Observable.just(doNothing)
+                    }
+                }
+            }
 }

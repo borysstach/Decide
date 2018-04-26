@@ -2,8 +2,10 @@ package pl.borys.decide
 
 import android.arch.lifecycle.MutableLiveData
 import android.support.test.filters.LargeTest
+import android.support.test.runner.AndroidJUnit4
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
 import org.kodein.di.Kodein
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
@@ -18,10 +20,10 @@ import pl.borys.decide.java.factory.FakeVoteSheetFactory
 import pl.borys.decide.usecase.vote.viewModel.VoteSheetsResponse
 import pl.borys.decide.usecase.vote.viewModel.VoteViewModel
 
+@RunWith(AndroidJUnit4::class)
 @LargeTest
 class VoteFragmentTest {
-    private val TEST_TITLE_1 = "VoteFragmentTestTitle1"
-    private val TEST_TITLE_2 = "VoteFragmentTestTitle2"
+
     private val mockViewModel = mock(VoteViewModel::class.java)
     private val voteSheetsLiveData: MutableLiveData<VoteSheetsResponse> = MutableLiveData()
 
@@ -36,27 +38,35 @@ class VoteFragmentTest {
 
     @Test
     fun should_ShowLoader_OnStart() {
-        voteSheetsLiveData.postValue(Response.loading())
+        voteSheetsLiveData.postValue(
+                Response.loading()
+        )
         R.id.loader.assertIsDisplayed()
     }
 
     @Test
     fun should_HideLoader_AfterFetchDataDelay() {
-        voteSheetsLiveData.postValue(Response.success(listOf(FakeVoteSheetFactory.newVoteSheet())))
+        voteSheetsLiveData.postValue(
+                Response.success(
+                        listOf(FakeVoteSheetFactory.newVoteSheet())
+                )
+        )
         R.id.loader.assertIsNotDisplayed()
     }
 
     @Test
     fun should_ShowTitle_AfterFetchDataDelay() {
+        val testTitle1 = "VoteFragmentTestTitle1"
+        val testTitle2 = "VoteFragmentTestTitle2"
         voteSheetsLiveData.postValue(
                 Response.success(
                         listOf(
-                                FakeVoteSheetFactory.newVoteSheet(title = TEST_TITLE_1),
-                                FakeVoteSheetFactory.newVoteSheet(title = TEST_TITLE_2)
+                                FakeVoteSheetFactory.newVoteSheet(title = testTitle1),
+                                FakeVoteSheetFactory.newVoteSheet(title = testTitle2)
                         )
                 )
         )
-        R.id.message hasText listOf(TEST_TITLE_1, TEST_TITLE_2).toString()
+        R.id.message hasText listOf(testTitle1, testTitle2).toString()
     }
 
 }

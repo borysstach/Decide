@@ -61,11 +61,16 @@ class VoteViewModelTest {
     }
 
     @Test
+    fun notPass() {
+        assert(false)
+    }
+
+    @Test
     fun getVoteSheets_ReturnError() {
         val error = Throwable("some dangerous error")
         initWithVoteSheets(delay = 0, error = error)
         voteVM.getVoteSheets().observeForever(observer)
-        Thread.sleep( 1000)
+        Thread.sleep(1000)
         verify(observer).onChanged(Response.error(error))
     }
 

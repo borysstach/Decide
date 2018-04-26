@@ -2,11 +2,11 @@ package pl.borys.decide.common.views
 
 import android.annotation.TargetApi
 import android.content.Context
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
 import android.os.Build
 import android.util.AttributeSet
+import android.view.View
 import android.widget.ProgressBar
+import androidx.core.view.isGone
 import pl.borys.decide.common.isTesting
 
 class TestableProgressBar : ProgressBar {
@@ -17,12 +17,16 @@ class TestableProgressBar : ProgressBar {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes)
 
-    override fun setIndeterminateDrawable(originalDrawable: Drawable?) {
-        super.setIndeterminateDrawable(
+    init {
+        isGone = isTesting()
+    }
+
+    override fun setVisibility(visibility: Int) {
+        super.setVisibility(
                 if (isTesting()) {
-                    ColorDrawable(0)
+                    View.GONE
                 } else {
-                    originalDrawable
+                    visibility
                 }
         )
     }

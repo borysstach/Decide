@@ -1,4 +1,4 @@
-package pl.borys.decide.helper.factory
+package pl.borys.decide.java.factory
 
 import pl.borys.decide.usecase.vote.dto.Answer
 import pl.borys.decide.usecase.vote.dto.VoteSheet

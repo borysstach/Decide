@@ -19,6 +19,12 @@ class TestableProgressBar : ProgressBar {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes)
 
+    init {
+        if (isTesting()) {
+            indeterminateDrawable = ColorDrawable(Color.RED)
+        }
+    }
+
     override fun setIndeterminateDrawable(originalDrawable: Drawable?) {
         super.setIndeterminateDrawable(
                 if (isTesting()) {

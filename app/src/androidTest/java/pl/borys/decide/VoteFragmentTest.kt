@@ -13,10 +13,10 @@ import pl.borys.decide.common.viewModel.Response
 import pl.borys.decide.helper.espresso.assertIsDisplayed
 import pl.borys.decide.helper.espresso.assertIsNotDisplayed
 import pl.borys.decide.helper.espresso.hasText
-import pl.borys.decide.helper.factory.FakeVoteSheetFactory
 import pl.borys.decide.helper.injection.TestKodein
 import pl.borys.decide.helper.injection.getVoteViewModelModule
 import pl.borys.decide.helper.testRules.VoteFragmentTestRule
+import pl.borys.decide.java.factory.FakeVoteSheetFactory
 import pl.borys.decide.usecase.vote.viewModel.VoteSheetsResponse
 import pl.borys.decide.usecase.vote.viewModel.VoteViewModel
 

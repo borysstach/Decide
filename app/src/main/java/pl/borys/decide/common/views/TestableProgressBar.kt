@@ -24,9 +24,9 @@ class TestableProgressBar : ProgressBar {
     override fun setVisibility(visibility: Int) {
         super.setVisibility(
                 if (isTesting()) {
-                    visibility
-                } else {
                     View.GONE
+                } else {
+                    visibility
                 }
         )
     }

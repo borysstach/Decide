@@ -16,6 +16,10 @@ class Response<out T>(val status: Status, val data: T?, val error: Throwable?) {
         }
     }
 
+    override fun equals(other: Any?): Boolean {
+        return other is Response<*> && other.status == this.status && other.data == this.data && other.error == this.error
+    }
+
     companion object {
         fun loading() = Response(Status.LOADING, null, null)
         fun <T> success(data: T) = Response(Status.SUCCESS, data, null)

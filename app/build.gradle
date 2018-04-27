@@ -12,7 +12,7 @@ android {
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.github.tmurakami.dexopener.DexOpenerAndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -20,6 +20,20 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets {
+        String sharedTestDir = 'src/testShared/java'
+        test {
+            java.srcDir sharedTestDir
+        }
+        androidTest {
+            java.srcDir sharedTestDir
+        }
+    }
+}
+
+// To enable Parcelize, experimental kotlin Parcelable generator. Delete after this reach production.
+androidExtensions {
+    experimental = true
 }
 
 dependencies {
@@ -29,14 +43,28 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:27.1.0'
     implementation 'com.android.support:design:27.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    // Architecture Components
+    implementation "android.arch.lifecycle:extensions:1.1.1"
+    annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
     // Kotlin extensions
     implementation 'androidx.core:core-ktx:0.3'
     // Bottom Bar
     implementation 'com.aurelhubert:ahbottomnavigation:2.1.0'
     // FragmentNavigation
     implementation 'com.ncapdevi:frag-nav:2.4.0'
+    // Dependency Injection
+    implementation 'org.kodein.di:kodein-di-generic-jvm:5.0.0'
+    implementation 'org.kodein.di:kodein-di-framework-android:5.0.0'
+    // RxJava
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.12'
     // Tests
+    def mockito_version = '2.10.0'
     testImplementation 'junit:junit:4.12'
+    testImplementation "org.mockito:mockito-core:$mockito_version"
+    testImplementation 'android.arch.core:core-testing:1.1.1'
+    androidTestImplementation "org.mockito:mockito-android:$mockito_version"
+    androidTestImplementation  'com.github.tmurakami:dexopener:0.12.1' //allow mock final classes in Android tests
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 }
